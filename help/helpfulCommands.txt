@@ -1,0 +1,29 @@
+#helpful commands - Evan Delabarre
+#12/30/2025
+
+#for compiling x86 assembly into an executable, first make an object file:
+#using either elf32 for 32 bit asm (eax,ebx,etc.)
+#or using elf64 for 64 bit asm (rax,rbx,etc.)
+nasm -f elf32 -o objectFile.o asmFile.asm
+nasm -f elf64 -o objectFile.o asmFile.asm
+
+#then, use their corresponding ld commands:
+#for 32 bit
+ld -m elf_i386 -o executable objectFile.o
+#for 64 bit
+ld objectFile.o -o executable 
+
+#for decompiling a c++ or c file into x86 assembly (AT&T syntax):
+gcc -S program.c -o program.asm
+g++ -S program.c -o program.asm 
+
+#on the other hand, to compile a c/c++ program into an executable:
+gcc program.c -o executable
+g++ program.cpp -o executable
+
+#for an easy way to decompile, simply use objdump.
+#This defaults to AT&T syntax
+objdump -d program > output.txt
+
+#intel syntax:
+objdump -M intel -d program
