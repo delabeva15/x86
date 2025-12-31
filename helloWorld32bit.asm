@@ -2,6 +2,11 @@
 ;
 ; Author: Evan Delabarre
 ; Date: 10/2/2025
+;
+; hello world program first learned from John Hammond
+; He has execellent explanation.
+; https://www.youtube.com/watch?v=HgEGAaYdABA
+
 
 global _start
 
