@@ -1,8 +1,7 @@
-;charCountingComplete counts the amount of chars in an input message and can
-;go beyond a length of 9 charecters- up to 10,000.
+;charCount10MB.asm counts up to 10,000,000 charecters! equal to roughly 20 average novels. This should be plenty. Next will be word and charecter counting!
 ;
 ;author: Evan Delabarre
-;1/2/2026
+;1/3/2026
 
 global _start
 
