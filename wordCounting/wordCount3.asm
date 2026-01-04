@@ -1,19 +1,4 @@
-;wordCount3.asm is the best word count and charecter counting for a terminal that my
-;skills can currently manage. I have plugged the program into chatGPT to figure out any 
-;improvements I can do- turns out using int 0x80 is incorrect for 64 bit- whoops!
-;So i've fixed that along with some variable naming conventions, a memory leak, and some
-;small things I over looked. The rest of the organization was done purely on my own-
-;and I am very proud of what I have done here. I know of only one bug in the entire
-;program and that is that typing ^@ is not recognized as a "word." This is because it 
-;corresponds with the null charecter (from my understanding). There might be a few other
-;varients of this, but besides that- it is up to microsoft word's level of character and
-;word counting, functioning quite similarly. 
-;
-;So here we are. Time to make this live somehow- constantly updating during typing.
-;This should be a major feat to take on.
-;
-;One other thing I can improve is consistent register usage. I will try to focus
-;on that writing future programs.
+;wordCount3.asm counts both words and characters very efficiently.
 ;
 ;author Evan Delabarre
 ;1/4/2026
