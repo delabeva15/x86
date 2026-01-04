@@ -1,4 +1,7 @@
-;wordCount.asm counts both words and charecters in an input, kind of like what you would find in google docs or microsoft word- with one exception. It assumes you won't have multiple spaces in a row, because it counts each space as the beginning of a new word. This problem will be addressed soon. Might be a bit challenging. 
+;wordCount.asm counts both words and charecters in an input, similar to what you
+;would find in google docs or microsoft word- with one exception. It assumes you
+;won't have multiple spaces in a row, because it counts each space as the beginning
+;of a new word. This problem will be addressed soon. Might be a bit challenging. 
 ;
 ;wordCount.asm could also use further optimization.
 ;
