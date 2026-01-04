@@ -3,7 +3,9 @@
 ;
 ;HOWEVER- wordCount2.asm still recognizes a string such as " . . . ]" as being 4 words
 ;this is because it does not interpret simply alphabetical chars as words- it interprets
-;all chars (minus 0x0A and strings of spaces) as words.
+;all chars (minus 0x0A and strings of spaces) as words. Here's a fun fact though- microsoft word 
+;ALSO does this. So for now- this is at least up to microsoft's standards of a "word" counter, as
+;words are somtimes subjective (as seen in finnegan's wake).
 ;
 ;wordCount2.asm could also use some further organizing- such as moving clearNumPrep
 ;and clearNumDisplay as calls at the bottom, and figuring how to change things like
