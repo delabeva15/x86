@@ -1,7 +1,7 @@
-;liveCharCount1.asm is a program that counts your key presses LIVE! 
-;meaning- normal operation of the terminal is replaced with a new 
-;terminal using tcgetattr() and tcsetattr(), disabling canonical mode
-;and echo mode. 
+;ioctl modified changes the terminal mode from canonical to not, and also disables echo. 
+;in short, what this does is disable text from being output onto the keyboard, and canonical mode,
+;when disabled, reads input by char instead of per newline. Really cool and will be useful for
+;live char counts and maybe a wacky keyboard program :)
 ;
 ;author Evan Delabarre
 ;1/7/2025
