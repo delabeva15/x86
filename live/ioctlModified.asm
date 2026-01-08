@@ -3,6 +3,9 @@
 ;when disabled, reads input by char instead of per newline. Really cool and will be useful for
 ;live char counts and maybe a wacky keyboard program :)
 ;
+;for now ive compiled this program into typeResetToFixTerminal.exe, and its exactly what it sounds like
+;REALLY COOL. (you can only run this in a terminal, I don't know how windows would react to it but i'm going to find out).
+;
 ;author Evan Delabarre
 ;1/7/2025
 
