@@ -5,6 +5,7 @@
 ;
 ;for now ive compiled this program into typeResetToFixTerminal.exe, and its exactly what it sounds like
 ;REALLY COOL. (you can only run this in a terminal, I don't know how windows would react to it but i'm going to find out).
+;(I found out- its not compatible with windows 64 bit architecture)
 ;
 ;author Evan Delabarre
 ;1/7/2025
