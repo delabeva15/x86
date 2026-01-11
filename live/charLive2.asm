@@ -1,4 +1,7 @@
-;This isn't working
+;charLive2.asm displays test and counts backspaces as backspaces! However, it only works for one line of text
+;since carridge return only works for one line at a time. I also need to implement a num_buffer clear call to
+;prevent false counts when backspacing from 10 to 1, as it will display 9 as 19. Makes sense, just need a way 
+;to clear it.
 ;
 ;author Evan Delabarre
 ;1/10/2025
