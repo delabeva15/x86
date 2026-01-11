@@ -27,6 +27,6 @@ int main(void) {
 
 	tcsetattr(0, 0, &oldt);		//stdin, time now, oldt
 	write(1, "\nDone.\n", 7);	//I always love a good "done."
-	return 0;	//return in
+	return 0;	
 
 }
