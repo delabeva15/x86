@@ -11,4 +11,5 @@ nasm -f elf64 -o outputfile.o inputfile.asm
 ld -o outputfile.exe outputfile.o
 
 some programs have already been compiled into executables for you to test and run yourself if desired-
+
 ./outputfile.exe to run the program.
