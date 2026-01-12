@@ -2,7 +2,7 @@ Hello! I'm Evan and this is my hobby repository where I upload x86 code via my D
 
 On here you can expect some surface level programs as well as some helpful tips and resources.
 
-Note: run programs at your own risk in a VIRTUAL MACHINE- I do not reccomend risking any damage to your computer running these locally in case of hardware or software differences between my device and yours. I am running these programs in a terminal- it does not work on windows terminals- use linux if you'd like to run any of these.
+Note: run programs at your own risk in a VIRTUAL MACHINE- I do not reccomend risking any damage to your computer running these locally in case of hardware or software differences between my device and yours. I am running these programs in a terminal- it does not work on windows terminals- use linux if you'd like to run any of these. Also note I am new to assembly and there may be mistakes present in my code that I haven't detected yet.
 
 compile using:
 
