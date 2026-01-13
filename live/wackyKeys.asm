@@ -46,7 +46,7 @@ interpret_char:
 	cmp al,0x0A
 	je count_wacky_keys
 	
-	inc rax
+	inc rax			;this is how the wacky-ness happens
 	mov [char_storage],rax
 	 
 continued:	
