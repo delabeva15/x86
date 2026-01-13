@@ -8,6 +8,7 @@
 ;here- make an example of stack smashing via a program and some outside tools.
 ;
 ;for now, more research is needed.
+;https://developer.arm.com/documentation/102433/0200/Stack-smashing-and-execution-permissions
 ;
 ;author Evan Delabarre
 ;1/13/2026
