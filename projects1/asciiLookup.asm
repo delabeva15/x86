@@ -2,6 +2,8 @@
 ;converts it into hexidecimal into the register and outputs it to
 ;display the ascii value. 
 ;
+;TODO - add comments and organize code into more functions
+;
 ;author Evan Delabarre
 ;1/13/2026
 
