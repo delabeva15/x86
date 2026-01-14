@@ -1,6 +1,6 @@
 ;ascii lookup- this program takes in an integer from the user and
 ;converts it into hexidecimal into the register and outputs it to
-;display the ascii value. 
+;display the ascii value.
 ;
 ;author Evan Delabarre
 ;1/13/2026
