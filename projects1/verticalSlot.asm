@@ -17,13 +17,21 @@ main_loop:
 
 	call random
 	
+	mov al,0
+	mov byte [zMatch],al
+	mov al,0
+	mov byte [oMatch],al
+	mov al,0
+	mov byte [fMatch],al	
+
 	mov al,3
 	mov [countVal],al
-
+	
 	mov rax,[numBuffer]
 	call divide_and_print
 
-user_input:
+user_input:			
+	call check_if_win
 	mov rsi,readVal
 	mov rdx,2
 	call read
@@ -39,6 +47,46 @@ exit:
 	mov rax,60
 	mov rsi,0
 	syscall
+
+check_if_win:
+	mov al,[zMatch]
+	cmp al,3
+	je zeros_matched
+	mov al,[oMatch]
+	cmp al,3
+	je ones_matched
+	mov al,[fMatch]
+	cmp al,3
+	je fours_matched
+	
+	ret
+
+zeros_matched:
+	mov rsi,winDisplayZero
+	mov rdx,winZeroLen
+	call write
+	mov rsi,readVal
+	mov rdx,2
+	call read
+	ret
+
+ones_matched:
+	mov rsi,winDisplayOne
+	mov rdx,winOneLen
+	call write
+	mov rsi,readVal
+	mov rdx,2
+	call read
+	ret
+
+fours_matched:
+	mov rsi,winDisplayFour
+	mov rdx,winFourLen
+	call write
+	mov rsi,readVal
+	mov rdx,2
+	call read
+	ret
 
 flash:
 	call print_empty1
@@ -156,18 +204,36 @@ print_zero:
 	mov rsi,symbolZero
 	mov rdx,zeroLen
 	call write
+
+	mov al,[zMatch]
+	inc al
+	mov [zMatch],al
+	xor rax,rax
+
 	jmp post_print
 
 print_one:
 	mov rsi,symbolOne
 	mov rdx,oneLen
 	call write
+
+	mov al,[oMatch]
+	inc al
+	mov [oMatch],al
+	xor rax,rax
+
 	jmp post_print
 
 print_four:
 	mov rsi,symbolFour
 	mov rdx,fourLen
 	call write
+
+	mov al,[fMatch]
+	inc al
+	mov [fMatch],al
+	xor rax,rax	
+	
 	jmp post_print
 
 delay:
@@ -195,6 +261,21 @@ section .bss
 	countVal resb 2
 
 section .data
+	zMatch db 0
+	oMatch db 0
+	fMatch db 0
+
+	winDisplayZero db "You matched 3 zeros! Congrats!",0xa
+	winZeroLen equ $-winDisplayZero
+	
+	winDisplayOne db "You matched 3 ones! Excellent!",0xa
+	winOneLen equ $-winDisplayOne
+
+	winDisplayFour db "You matched 3 fours! Incredible!",0xa
+	winFourLen equ $-winDisplayFour
+
+
+
 	clearTerminal db 0x1B, "[2J", 0x1B, "[H"
 	clearLen equ $-clearTerminal
 
