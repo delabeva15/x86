@@ -1,10 +1,9 @@
-;a vertical slot machine for linux terminals, no win detection
-;but great graphics utilizing the █ character. Very cool!
+;a vertical slot machine for linux terminals, win detection
+;and great graphics utilizing the █ character. Very cool!
 ;
-;TODO work on win detection for this one too, figure it out
 ;
 ;author Evan Delabarre
-;1/21/2026
+;1/24/2026
 STDIN equ 0		;stdin value
 SYS_READ equ 0		;syscall num for read
 STDOUT equ 1		;stdout value
