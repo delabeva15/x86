@@ -5,6 +5,27 @@
 ;
 ;author Evan Delabarre
 ;1/21/2026
+STDIN equ 0		;stdin value
+SYS_READ equ 0		;syscall num for read
+STDOUT equ 1		;stdout value
+SYS_WRITE equ 1		;syscall num for write
+
+BALANCE equ 220	    	;$220
+MONEY_PER_SPIN equ 5	;bet size
+
+MATCHES_START equ 0     ;if match=3, reward user- so start with 0.
+			;if you modify this to 1, you'd only need 2 matches
+			;to win, but will not be rewarded for 3.
+
+SYS_NANOSLEEP equ 35	;syscall num for delay
+DELAY equ 100000000 	;100 milliseconds (100 million nanoseconds)
+
+SYS_GETRANDOM equ 318	;getrandom number syscall
+SYS_EXIT equ 60		;exit
+RETURN_VAL equ 0	;return value of 0, equal to return 0; (in c)
+
+NUMBER_OF_SLOTS equ 3	;DO NOT CHANGE THIS ONE- the program only supports 3.
+			;not 2, nor 1. Only 3.
 
 global _start
 
@@ -12,49 +33,101 @@ section .text
 
 _start:
 
-main_loop:
-	call flash
+main_loop:	
+	call flash		;main animation
 
-	call random
-	
-	mov al,0
-	mov byte [zMatch],al
-	mov al,0
-	mov byte [oMatch],al
-	mov al,0
+	call random		;calls GETRANDOM and fills numBuffer with an
+				;8-digit random number 	
+	mov al,MATCHES_START
+	mov byte [zMatch],al	;clear matches per spin
+	mov byte [oMatch],al	;ensures correct win detection
 	mov byte [fMatch],al	
 
-	mov al,3
+	mov al,NUMBER_OF_SLOTS	;number of slots- program is only designed for 3
 	mov [countVal],al
 	
-	mov rax,[numBuffer]
-	call divide_and_print
+	mov rax,[numBuffer]	;displaying the slot symbols using random 
+	call divide_and_print	;number in numBuffer
 
-user_input:			
+user_input:		;starts with money stuff and user input for next spin
 	call check_if_win
+
+	xor rax,rax
+	mov rax,[money]
+	sub rax,MONEY_PER_SPIN
+	mov [money],rax
+	cmp rax,0
+	je exit
+
+	call money_count
+	call show_winnings
+
 	mov rsi,readVal
 	mov rdx,2
 	call read
 
 	call clearing_screen
 
-analyze_user_input:
+analyze_user_input:	;if user input isn't ENTER, quit
 	mov al,[readVal]
 	cmp al,0xa
 	je main_loop
 
 exit:
-	mov rax,60
-	mov rsi,0
+	mov rax,SYS_EXIT
+	mov rsi,RETURN_VAL
 	syscall
 
+money_count:
+	xor rcx,rcx
+	mov rcx,7	
+	call clearMoney
+	xor rax,rax
+	mov rax,[money]
+	xor rcx,rcx
+	mov rcx,7
+	call divide_money
+	ret
+
+clearMoney:
+	mov dl,0
+	mov [moneyDisplay+rcx],dl
+	dec rcx
+	cmp rcx,0
+	jne clearMoney
+	ret
+
+show_winnings:
+	mov rsi,moneyLabel	
+	mov rdx,moneyLabelSize
+	call write
+
+	mov rsi,moneyDisplay
+	mov rdx,9
+	call write
+	ret
+
+divide_money:
+	xor rdx,rdx
+	xor rbx,rbx
+	mov rbx,10
+	div rbx
+	add dl,'0'
+	mov [moneyDisplay+rcx],dl
+	dec rcx
+	cmp rax,0
+	jne divide_money
+	ret
+	
 check_if_win:
 	mov al,[zMatch]
 	cmp al,3
 	je zeros_matched
+
 	mov al,[oMatch]
 	cmp al,3
 	je ones_matched
+
 	mov al,[fMatch]
 	cmp al,3
 	je fours_matched
@@ -65,6 +138,13 @@ zeros_matched:
 	mov rsi,winDisplayZero
 	mov rdx,winZeroLen
 	call write
+
+	xor rax,rax
+	mov rax,[money]
+	add rax,25
+	mov [money],rax
+	xor rax,rax
+
 	mov rsi,readVal
 	mov rdx,2
 	call read
@@ -74,6 +154,13 @@ ones_matched:
 	mov rsi,winDisplayOne
 	mov rdx,winOneLen
 	call write
+
+	xor rax,rax
+	mov rax,[money]
+	add rax,50
+	mov [money],rax
+	xor rax,rax
+
 	mov rsi,readVal
 	mov rdx,2
 	call read
@@ -83,12 +170,20 @@ fours_matched:
 	mov rsi,winDisplayFour
 	mov rdx,winFourLen
 	call write
+
+	xor rax,rax
+	mov rax,[money]
+	add rax,500
+	mov [money],rax
+	xor rax,rax
+
 	mov rsi,readVal
 	mov rdx,2
 	call read
 	ret
 
 flash:
+	
 	call print_empty1
 	call print_empty1
 	call print_empty1
@@ -133,7 +228,7 @@ clearing_screen:
 	ret
 
 random:
-	mov rax,318
+	mov rax,SYS_GETRANDOM
 	mov rdi,numBuffer
 	mov rsi,8
 	xor rdx,rdx
@@ -186,7 +281,7 @@ print_empty1:
 	mov rsi,empty1
 	mov rdx,empty1Len
 	call write
-	ret
+	ret	
 
 print_empty2:
 	mov rsi,empty2
@@ -237,21 +332,21 @@ print_four:
 	jmp post_print
 
 delay:
-	mov rax,35
-	lea rdi,[ts]
+	mov rax,SYS_NANOSLEEP
+	lea rdi,[timed_delay]
 	xor rsi,rsi
 	syscall
 	ret
 
 write:
-	mov rax,1
-	mov rdi,1
+	mov rax,SYS_WRITE
+	mov rdi,STDOUT
 	syscall
 	ret
 
 read:
-	mov rax,0
-	mov rdi,0
+	mov rax,SYS_READ
+	mov rdi,STDIN
 	syscall
 	ret
 
@@ -261,20 +356,24 @@ section .bss
 	countVal resb 2
 
 section .data
+	money db BALANCE
+	moneyDisplay db 0,0,0,0,0,0,0,0,0xa
+
 	zMatch db 0
 	oMatch db 0
 	fMatch db 0
 
-	winDisplayZero db "You matched 3 zeros! Congrats!",0xa
+	moneyLabel db "Balance: $"
+	moneyLabelSize equ $-moneyLabel
+
+	winDisplayZero db "You matched 3 zeros! Congrats!",0xa,"You've won $25!",0xa
 	winZeroLen equ $-winDisplayZero
 	
-	winDisplayOne db "You matched 3 ones! Excellent!",0xa
+	winDisplayOne db "You matched 3 ones! Excellent!",0xa,"You've won $50!",0xa
 	winOneLen equ $-winDisplayOne
 
-	winDisplayFour db "You matched 3 fours! Incredible!",0xa
+	winDisplayFour db "You matched 3 fours! Incredible!",0xa,"Jackpot +$500!",0xa
 	winFourLen equ $-winDisplayFour
-
-
 
 	clearTerminal db 0x1B, "[2J", 0x1B, "[H"
 	clearLen equ $-clearTerminal
@@ -308,7 +407,6 @@ section .data
 	"████████████", 0xa, \
 	"████████████", 0xa
 	empty2Len equ $-empty2
-
 	
 	full db \
 	"████████████", 0xa, \
@@ -350,6 +448,6 @@ section .data
 	"████████████", 0xa
 	fourLen equ $-symbolFour
 
-ts:
+timed_delay:
 	dq 0
-	dq 100000000
+	dq DELAY
